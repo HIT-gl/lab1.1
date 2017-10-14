@@ -1,4 +1,3 @@
-
 //package lab1;
 import java.io.BufferedReader;
 //B2иопч╦д
