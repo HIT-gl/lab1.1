@@ -1,7 +1,6 @@
 
 import java.io.*;
 import java.util.Random;
-
 //B1上修改
 //B2上修改
 //B2上修改
