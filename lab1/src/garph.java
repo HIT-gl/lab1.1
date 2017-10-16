@@ -5,18 +5,25 @@ import java.util.Random;
 //B1上修改
 //B2上修改
 //B2上修改
+
 public class garph {
 	int  MAX_WEIGHT = Integer.MAX_VALUE/2;
 	static String[] words = new String[100];
 	static int edge[][] = new int[100][100];
 	static int  reallen;
+
 	int weight_index;
+	 int weight_index;
 	public garph() throws IOException
 	{
 		String[] temp;
 		String[] txt = new String[100];
+
 		System.out.println("make some differrance");
 		FileReader file = new FileReader("C:\\Users\\Administrator\\Desktop\\sentence.txt");
+
+		FileReader file = new FileReader("C:\\Users\\lenovo\\Desktop\\sentence.txt");
+
 		BufferedReader input = new BufferedReader(file);
 		String line = null;
 		int index = 0, i, j, k, len;
@@ -32,6 +39,7 @@ public class garph {
 				}
 			}
 		}
+
 		reallen = index;
 		len = index;
 		index = 0;
@@ -63,6 +71,7 @@ public class garph {
 		input.close();
 	}
 	//返回字符串在字符串数组的位置
+
 	static int match(String[] Template, String Substr) throws IOException
 	{
 		int i;
@@ -340,6 +349,7 @@ public class garph {
 		}
 		return text;
 	}
+
 	public void noteDirectedGraph(garph G,String wor1,String word2,String word3) throws IOException
 	   {
 	     String [] notepath; 

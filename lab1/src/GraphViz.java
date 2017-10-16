@@ -1,9 +1,13 @@
 
 //package lab1;
 import java.io.BufferedReader;
+
 //B2上修改
 import java.io.DataInputStream;
 //B1上修改
+
+import java.io.DataInputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,7 +48,14 @@ import java.io.InputStreamReader;
  * @version v0.1, 2003/12/04 (December) -- first release
  * @author  Laszlo Szathmary (<a href="jabba.laci@gmail.com">jabba.laci@gmail.com</a>)
  */
+
 public class GraphViz
+
+
+ 
+ 
+ public class GraphViz
+
 {
    /**
     * The dir. where temporary files will be created.
@@ -82,12 +93,14 @@ public class GraphViz
 /**
     * Adds a string to the graph's source (with newline).
     */
+
    public void addln(String line) {
       graph.append(line + "\n");
    }
 /**
     * Adds a newline to the graph's source.
     */
+
    public void addln() {
       graph.append('\n');
    }

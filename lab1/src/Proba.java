@@ -2,8 +2,10 @@
 import java.io.File;
 public class Proba
 {
+
 	//B1上修改
 	//B2上修改
+
   // private static final int MAX_WEIGHT = 0;
 public static void main(String[] args)
    {
@@ -29,6 +31,7 @@ public static void main(String[] args)
     		  }
     	  }
       }
+
    
       
       //gv.addln("A -> C;");
@@ -36,6 +39,11 @@ public static void main(String[] args)
       System.out.println(gv.getDotSource());
      
       
+
+      //gv.addln("A -> C;");
+      gv.addln(gv.end_graph());
+      System.out.println(gv.getDotSource());
+
  //     String type = "gif";
 //      String type = "dot";
 //      String type = "fig";    // open with xfig

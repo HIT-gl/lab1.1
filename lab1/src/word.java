@@ -1,12 +1,17 @@
 
 import java.io.*;
+
 //B1上修改
 import java.util.Random;
 //B2上修改
+
+import java.util.Random;
+
 import javax.swing.JOptionPane;
 
 public class word
  {
+
 	public static void main(String[] args) throws IOException
 	{
 		garph G = new garph();
@@ -16,6 +21,7 @@ public class word
 		String[] pathout;
 		String pathword;
 		int choice;
+
 		System.out.println("show the change");
 		String reg = "[^\\p{Alpha}]+";
 		do
