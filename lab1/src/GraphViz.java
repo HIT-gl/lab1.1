@@ -1,4 +1,3 @@
-
 //package lab1;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -19,15 +18,15 @@ import java.io.InputStreamReader;
  * <dd>
  * <pre>
  *    GraphViz gv = new GraphViz();
- *    gv.addln(gv.start_graph());
+ *    gv.addln(gv.startGraph());
  *    gv.addln("A -> B;");
  *    gv.addln("A -> C;");
- *    gv.addln(gv.end_graph());
- *    System.out.println(gv.getDotSource());
+ *    gv.addln(gv.endGraph());
+ *    System.out.println(gv.getdotSource());
  *
  *    String type = "gif";
  *    File out = new File("out." + type);   // out.gif in this example
- *    gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
+ *    gv.writeGraphToFile( gv.getGraph( gv.getdotSource(), type ), out );
  * </pre>
  * </dd>
  * 
@@ -47,13 +46,13 @@ public class GraphViz
    /**
     * The dir. where temporary files will be created.
     */
-   //private static String TEMP_DIR = "/tmp"; // Linux
-   private static String TEMP_DIR = "c:/temp"; // Windows
+   //private static String tempDIR = "/tmp"; // Linux
+   private static String tempDIR = "c:/temp"; // Windows
 /**
     * Where is your dot program located? It will be called externally.
     */
-  // private static String DOT = "/usr/bin/dot"; // Linux
-   private static String DOT = "E:\\release\\bin\\dot.exe"; // Windows
+  // private static String dot = "/usr/bin/dot"; // Linux
+   private static String dot ="C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe"; // Windows
 /**
     * The source of the graph written in dot language.
     */
@@ -68,7 +67,7 @@ public class GraphViz
     * Returns the graph's source description in dot language.
     * @return Source of the graph in dot language.
     */
-   public String getDotSource() {
+   public String getdotSource() {
       return graph.toString();
    }
 /**
@@ -89,10 +88,20 @@ public class GraphViz
    public void addln() {
       graph.append('\n');
    }
+	/**
+	* 
+	*
+	* 注释
+	*/
    public void addlnlabel(String line,String label)
    {
    	   graph.append(line+"[label="+label+"]"+"\n");
    }
+	/**
+	* 
+	*
+	* 注释
+	*/
    public void addlncolor(String line,String label)
    {
 	   graph.append(line+"[color=red]"+"[label="+label+"]"+"\n");
@@ -100,23 +109,23 @@ public class GraphViz
 
 /**
     * Returns the graph as an image in binary format.
-    * @param dot_source Source of the graph to be drawn.
+    * @param dotSource Source of the graph to be drawn.
     * @param type Type of the output image to be produced, e.g.: gif, dot, fig, pdf, ps, svg, png.
     * @return A byte array containing the image of the graph.
     */
-   public byte[] getGraph(String dot_source, String type)
+   public byte[] getGraph(String dotSource, String type)
    {
       File dot;
-      byte[] img_stream = null;
+      byte[] imgStream = null;
    
       try {
-         dot = writeDotSourceToFile(dot_source);
+         dot = writedotSourceToFile(dotSource);
          if (dot != null)
          {
-            img_stream = get_img_stream(dot, type);
+            imgStream = getImgStream(dot, type);
             if (dot.delete() == false) 
                System.err.println("Warning: " + dot.getAbsolutePath() + " could not be deleted!");
-            return img_stream;
+            return imgStream;
          }
          return null;
       } catch (java.io.IOException ioe) { return null; }
@@ -154,29 +163,29 @@ public class GraphViz
     * @param type Type of the output image to be produced, e.g.: gif, dot, fig, pdf, ps, svg, png.
     * @return The image of the graph in .gif format.
     */
-   private byte[] get_img_stream(File dot, String type)
+   private byte[] getImgStream(File dot, String type)
    {
       File img;
-      byte[] img_stream = null;
+      byte[] imgStream = null;
 try {
-         img = File.createTempFile("graph_", "."+type, new File(GraphViz.TEMP_DIR));
+         img = File.createTempFile("graph_", "."+type, new File(GraphViz.tempDIR));
          Runtime rt = Runtime.getRuntime();
          
          // patch by Mike Chenault
-         String[] args = {DOT, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()};
+         String[] args = {dot, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()};
          Process p = rt.exec(args);
          
          p.waitFor();
 FileInputStream in = new FileInputStream(img.getAbsolutePath());
-         img_stream = new byte[in.available()];
-         in.read(img_stream);
+         imgStream = new byte[in.available()];
+         in.read(imgStream);
          // Close it if we need to
          if( in != null ) in.close();
 if (img.delete() == false) 
             System.err.println("Warning: " + img.getAbsolutePath() + " could not be deleted!");
       }
       catch (java.io.IOException ioe) {
-         System.err.println("Error:    in I/O processing of tempfile in dir " + GraphViz.TEMP_DIR+"\n");
+         System.err.println("Error:    in I/O processing of tempfile in dir " + GraphViz.tempDIR+"\n");
          System.err.println("       or in calling external command");
          ioe.printStackTrace();
       }
@@ -184,18 +193,18 @@ if (img.delete() == false)
          System.err.println("Error: the execution of the external program was interrupted");
          ie.printStackTrace();
       }
-return img_stream;   }
+return imgStream;   }
    /**
     * Writes the source of the graph in a file, and returns the written file
     * as a File object.
     * @param str Source of the graph (in dot language).
     * @return The file (as a File object) that contains the source of the graph.
     */
-   public File writeDotSourceToFile(String str) throws java.io.IOException
+   public File writedotSourceToFile(String str) throws java.io.IOException
    {
       File temp;
       try {
-         temp = File.createTempFile("graph_", ".dot.tmp", new File(GraphViz.TEMP_DIR));
+         temp = File.createTempFile("graph_", ".dot.tmp", new File(GraphViz.tempDIR));
          FileWriter fout = new FileWriter(temp);
          fout.write(str);
          fout.close();
@@ -210,20 +219,20 @@ return img_stream;   }
     * Returns a string that is used to start a graph.
     * @return A string to open a graph.
     */
-   public String start_graph() {
+   public String startGraph() {
       return "digraph G {" ;
    }
 /**
     * Returns a string that is used to end a graph.
     * @return A string to close a graph.
     */
-   public String end_graph() {
+   public String endGraph() {
       return "}";
    }
 /**
-    * Read a DOT graph from a text file.
+    * Read a dot graph from a text file.
     * 
-    * @param input Input text file containing the DOT graph
+    * @param input Input text file containing the dot graph
     * source.
     */
    public void readSource(String input)
@@ -250,4 +259,3 @@ return img_stream;   }
    
 } // end of class GraphViz
 //通过下面这个类调用graphViz.java
- 

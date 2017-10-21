@@ -1,18 +1,43 @@
-
 import java.io.*;
 import java.util.Random;
-public class garph {
-	int  MAX_WEIGHT = Integer.MAX_VALUE/2;
+/**
+* 
+*
+* @author George Bush
+*/
+public class Garph {
+	/**
+	* 此处应有注释
+	*/
+	int maxWeight = Integer.MAX_VALUE/2;
+	/**
+	* 此处应有注释
+	*/
 	static String[] words = new String[100];
+	/**
+	* 此处应有注释
+	*/
 	static int edge[][] = new int[100][100];
+	/**
+	* 此处应有注释
+	*/
 	static int  reallen;
-	int weight_index;
-	public garph() throws IOException
+	/**
+	* 此处应有注释
+	*/
+	int weightIndex;
+	public char[] weight_index;
+	/**
+	* 
+	*
+	* 注释
+	*/
+	public Garph() throws IOException
 	{
 		String[] temp;
 		String[] txt = new String[100];
 		System.out.println("make some differrance");
-		FileReader file = new FileReader("C:\\Users\\Administrator\\Desktop\\sentence.txt");
+		FileReader file = new FileReader("C:\\Users\\zy\\Desktop\\dd.txt");
 		BufferedReader input = new BufferedReader(file);
 		String line = null;
 		int index = 0, i, j, k, len;
@@ -59,13 +84,13 @@ public class garph {
 		input.close();
 	}
 	//返回字符串在字符串数组的位置
-	static int match(String[] Template, String Substr) throws IOException
+	static int match(String[] template, String substr) throws IOException
 	{
 		int i;
 		boolean find = false;
-		for (i = 0 ; i < Template.length ; i++)
+		for (i = 0 ; i < template.length ; i++)
 		{
-			if((Template[i] != null)&&(Template[i].equals(Substr)))
+			if((template[i] != null)&&(template[i].equals(substr)))
 			{
 				find = true;
 				break;
@@ -78,7 +103,7 @@ public class garph {
 	}
 	String queryBridgeWords(String word1, String word2) throws IOException
 	{
-		String Bridge_word = "";
+		String bridgeWord = "";
 		int i, j, k; //i,j分别表示word1，word2在图中的位置
 		boolean result = false , find1 , find2 ; //标志在图中能否找到输入单词
 		find1 = false;
@@ -104,17 +129,17 @@ public class garph {
     	for (k = 0 ; k < reallen ; k++)
 			if ((k!=i)&&(k!=j)&&(edge[i][k]>0)&&(edge[k][j]>0))
 			{
-				Bridge_word = Bridge_word + words[k] + " ,";
+				bridgeWord = bridgeWord + words[k] + " ,";
 				result = true;
 			}
 		if (result == false)
 			return "error4";
 		else
-			return Bridge_word; 
+			return bridgeWord; 
 	}
 	String generateNewText(String inputText) throws IOException
 	{
-		String[] temp, Bridge_word;
+		String[] temp, bridgeWord;
 		String newText,  result;
 		int i, ran;
 		String reg = "[^\\p{Alpha}]+";
@@ -125,33 +150,37 @@ public class garph {
 		for (i = 1 ; i < temp.length ; i++)
 		{
 			result = queryBridgeWords(temp[i-1], temp[i]);
-			Bridge_word = result.split(reg);
+			bridgeWord = result.split(reg);
 			if (result.equals("error1")||result.equals("error2")||result.equals("error3")||result.equals("error4"))
 				newText = newText + " " + temp[i];
-			else if(Bridge_word.length == 1)
-				newText = newText + " " + Bridge_word[0] + " " + temp[i];
+			else if(bridgeWord.length == 1)
+				newText = newText + " " + bridgeWord[0] + " " + temp[i];
 			else
 			{
-				ran = new Random().nextInt(Bridge_word.length);
-				newText = newText + " " + Bridge_word[ran] + " " + temp[i];
+				ran = new Random().nextInt(bridgeWord.length);
+				newText = newText + " " + bridgeWord[ran] + " " + temp[i];
 			}
 		}
 		return newText;
 	}
 
-	
-	public String Dijkstra(String word1) throws IOException
+	/**
+	* 
+	*
+	* 注释
+	*/
+	public String dijkstra(String word1) throws IOException
 	{  
 		   int n = reallen, degree, degree2;  
-		   int minweight = MAX_WEIGHT;  
+		   int minweight =maxWeight;  
 		   int minUn = 0; 
 		   int [][] edge2 = new int[reallen][reallen];
 		   int[] minmatrix = new int[reallen];// 存放当前起始点0到其余各个顶点的距离；  
 		   boolean[] isS = new boolean[n];// 判断各个是否被访问过  
 		   String[] route = new String[n];// 每个字符串是显示对应终止顶点最短距离的路径；
-		   int word1_index = match(words,word1);
+		   int word1Index = match(words,word1);
 		   String sentence = "";
-		   if (word1_index == -1)
+		   if (word1Index == -1)
 			   return "ERROR";
 		   for (int i = 0 ; i < reallen ;i++) 
 		   {
@@ -159,24 +188,24 @@ public class garph {
 				{
 					edge2[i][j]=edge[i][j];
 					if((i!=j)&&(edge2[i][j]==0))
-						edge2[i][j]=MAX_WEIGHT;
+						edge2[i][j]=maxWeight;
 				}		
 				
 			}
 		   for (int i = 0; i < n; i++) 
-		   if(i!=word1_index){// 初始化  
-			   minmatrix[i] = edge2[word1_index][i];  
+		   if(i!=word1Index){// 初始化  
+			   minmatrix[i] = edge2[word1Index][i];  
 			   isS[i] = false;  
-			   route[i] = words[word1_index] +"->" + words[i];    
+			   route[i] = words[word1Index] +"->" + words[i];    
 		   }  
-		   degree2 = word1_index;
+		   degree2 = word1Index;
 		   for (int i = 0; i < n; i++) 
 		   {  		     
 		   // 选择 当前 和起点 连通的，且值最小的顶点；  
-			   degree = word1_index;
+			   degree = word1Index;
 			   for (int k = 0; k < n; k++) 
 			   {  			     
-				   if ((!isS[degree]) &&(degree != word1_index))
+				   if ((!isS[degree]) &&(degree != word1Index))
 				   {  			     
 					   if (minmatrix[degree] < minweight) 
 					   {  
@@ -187,7 +216,7 @@ public class garph {
 				   degree = (degree + 1)%reallen;
 			   }  		     
 			   isS[minUn] = true;// 将该点设置为已访问；  	
-			   degree2 = word1_index;
+			   degree2 = word1Index;
 			   for (int j = 0; j < n; j++) 
 			   {     
 				   if (!isS[degree2]) 
@@ -201,13 +230,13 @@ public class garph {
 				   }  
 				   degree2 = (degree2 + 1)%reallen;
 			   }  
-			   minweight = MAX_WEIGHT;// 因为要放到下一个循环中，所以一定要重设置一下，回到最大值  		     
+			   minweight =maxWeight;// 因为要放到下一个循环中，所以一定要重设置一下，回到最大值  		     
 		   }  	     
 		   for (int m = 0; m < n; m++) 
 		   {  
-			   if(m!=word1_index) {	   
+			   if(m!=word1Index)			   
 		   
-					if (minmatrix[m] == MAX_WEIGHT) 
+					if (minmatrix[m] ==maxWeight) 
 					{     
 						System.out.println("没有到达该点的路径");  		     
 					} 
@@ -216,27 +245,31 @@ public class garph {
 					   		sentence=sentence+route[m]+",";     
 					   //System.out.println(route[m]);  		   		   
 					} 
-					}
 				}  
 		     
 		//   }  
 		   return sentence;
 		     
 	}
-	public String Dijkstra(String word1,String word2) throws IOException
+	/**
+	* 
+	*
+	* 注释
+	*/
+	public String dijkstra(String word1,String word2) throws IOException
 	{  
 		   int n = reallen, degree, degree2;  
-		   int minweight = MAX_WEIGHT;  
+		   int minweight =maxWeight;  
 		   int minUn = 0; 
 		   int [][] edge2 = new int[reallen][reallen];
 		   int[] minmatrix = new int[reallen];// 存放当前起始点0到其余各个顶点的距离；  
 		   boolean[] isS = new boolean[n];// 判断各个是否被访问过  
 		   String[] route = new String[n];// 每个字符串是显示对应终止顶点最短距离的路径；
-		   int word1_index = match(words,word1);
-		   if (word1_index == -1)
+		   int word1Index = match(words,word1);
+		   if (word1Index == -1)
 			   return "ERROR";
-		   int word2_index = match(words,word2);
-		   if (word2_index == -1)
+		   int word2Index = match(words,word2);
+		   if (word1Index == -1)
 			   return "ERROR";
 		   for (int i = 0 ; i < reallen ;i++) 
 		   {
@@ -244,24 +277,24 @@ public class garph {
 				{
 					edge2[i][j]=edge[i][j];
 					if((i!=j)&&(edge2[i][j]==0))
-						edge2[i][j]=MAX_WEIGHT;
+						edge2[i][j]=maxWeight;
 				}		
 					
 			}
 		   for (int i = 0; i < n; i++) 
-		   if(i!=word1_index){// 初始化  
-			   minmatrix[i] = edge2[word1_index][i];  
+		   if(i!=word1Index){// 初始化  
+			   minmatrix[i] = edge2[word1Index][i];  
 			   isS[i] = false;  
-			   route[i] = words[word1_index] +"->" + words[i];    
+			   route[i] = words[word1Index] +"->" + words[i];    
 		   }  
-		   degree2 = word1_index;
+		   degree2 = word1Index;
 		   for (int i = 0; i < n; i++) 
 		   {  		     
 		   // 选择 当前 和起点 连通的，且值最小的顶点；  
-			   degree = word1_index;
+			   degree = word1Index;
 			   for (int k = 0; k < n; k++) 
 			   {  			     
-				   if ((!isS[degree]) &&(degree != word1_index))
+				   if ((!isS[degree]) &&(degree != word1Index))
 				   {  			     
 					   if (minmatrix[degree] < minweight) 
 					   {  
@@ -272,7 +305,7 @@ public class garph {
 				   degree = (degree + 1)%reallen;
 			   }  		     
 			   isS[minUn] = true;// 将该点设置为已访问；  	
-			   degree2 = word1_index;
+			   degree2 = word1Index;
 			   for (int j = 0; j < n; j++) 
 			   {     
 				   if (!isS[degree2]) 
@@ -286,11 +319,11 @@ public class garph {
 				   }  
 				   degree2 = (degree2 + 1)%reallen;
 			   }  
-			   minweight = MAX_WEIGHT;// 因为要放到下一个循环中，所以一定要重设置一下，回到最大值
+			   minweight =maxWeight;// 因为要放到下一个循环中，所以一定要重设置一下，回到最大值
 			   
 		   }
-		   weight_index=minmatrix[word2_index];
-		 return  route[word2_index];
+		   weightIndex=minmatrix[word2Index];
+		 return  route[word2Index];
 		 
 		     
 	}  
@@ -298,11 +331,11 @@ public class garph {
 	String randomWalk()
 	{
 		int[] adj = new int[reallen]; //储存点的出点
-		int [][] mark_edge = new int[reallen][reallen];//标志边是否被访问
-		String text = new String();
-		int num_adj, ran, i, j, k;
+		int [][] markEdge = new int[reallen][reallen];//标志边是否被访问 // NOPMD by zy on 17-10-19 下午8:08
+		//String text = new String();
+		int numAdj, ran, i, j, k;
 		ran = new Random().nextInt(reallen);
-		text = words[ran];
+		String text = words[ran];
 		while (true) {
 			j = 0;
 			for (i = 0 ; i < reallen ; i++)
@@ -313,17 +346,17 @@ public class garph {
 					j++;
 				}
 			}
-			num_adj = j;
-			if (num_adj == 0)
+			numAdj = j;
+			if (numAdj == 0)
 				
 				break;
 			else
 			{
-				k = new Random().nextInt(num_adj);
-				if (mark_edge[ran][adj[k]] == 0)
+				k = new Random().nextInt(numAdj);
+				if (markEdge[ran][adj[k]] == 0)
 				{
 					text = text + " " + words[adj[k]];
-					mark_edge[ran][adj[k]] = 1;
+					markEdge[ran][adj[k]] = 1;
 					ran = adj[k];
 				}
 			
@@ -337,12 +370,17 @@ public class garph {
 		}
 		return text;
 	}
-	public void noteDirectedGraph(garph G,String wor1,String word2,String word3) throws IOException
+	/**
+	* 
+	*
+	* 注释
+	*/
+	public void noteDirectedGraph(Garph g,String wor1,String word2,String word3) throws IOException
 	   {
 	     String [] notepath; 
 		GraphViz gv1 = new GraphViz();
-	      gv1.addln(gv1.start_graph());
-	      int a,b;
+	      gv1.addln(gv1.startGraph());
+	      int a,b,len;
 	      notepath = word3.split("->");
 	      for(int i=0;i<reallen;i++)
 	      {
@@ -363,8 +401,8 @@ public class garph {
 	    	  }
 	      }
 	      
-	      gv1.addln(gv1.end_graph());
-	      System.out.println(gv1.getDotSource());
+	      gv1.addln(gv1.endGraph());
+	      System.out.println(gv1.getdotSource());
 	     
 	      
 	 //     String type = "gif";
@@ -377,7 +415,6 @@ public class garph {
 //	      String type = "plain";
 	 //     File out = new File("/tmp/out." + type);   // Linux
 	      File out = new File("E://graph2" + type);    // Windows
-	      gv1.writeGraphToFile( gv1.getGraph( gv1.getDotSource(), type ), out );
+	      gv1.writeGraphToFile( gv1.getGraph( gv1.getdotSource(), type ), out );
 	   }
 }
-

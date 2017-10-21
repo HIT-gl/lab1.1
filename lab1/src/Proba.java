@@ -1,8 +1,17 @@
-
 import java.io.File;
+/**
+* 
+*
+* @author George Bush
+*/
 public class Proba
 {
   // private static final int MAX_WEIGHT = 0;
+	/**
+	* 
+	*
+	* ×¢ÊÍ
+	*/
 public static void main(String[] args)
    {
       Proba p = new Proba();
@@ -13,25 +22,25 @@ public static void main(String[] args)
     * Construct a DOT graph in memory, convert it
     * to image and store the image in the file system.
     */
-   public void showDirectedGraph(garph G)
+   public void showDirectedGraph(Garph g)
    {
       GraphViz gv = new GraphViz();
-      gv.addln(gv.start_graph());
-      for(int i=0;i<G.reallen;i++)
+      gv.addln(gv.startGraph());
+      for(int i=0;i<g.reallen;i++)
       {
-    	  for(int j=0;j<G.reallen;j++)
+    	  for(int j=0;j<g.reallen;j++)
     	  {
-    		  if(G.edge[i][j]>0)
+    		  if(g.edge[i][j]>0)
     		  {
-    		  gv.addlnlabel(G.words[i]+"->"+G.words[j],""+G.edge[i][j]);
+    		  gv.addlnlabel(g.words[i]+"->"+g.words[j],""+g.edge[i][j]);
     		  }
     	  }
       }
    
       
       //gv.addln("A -> C;");
-      gv.addln(gv.end_graph());
-      System.out.println(gv.getDotSource());
+      gv.addln(gv.endGraph());
+      System.out.println(gv.getdotSource());
      
       
  //     String type = "gif";
@@ -43,8 +52,8 @@ public static void main(String[] args)
       String type = "png";
 //      String type = "plain";
  //     File out = new File("/tmp/out." + type);   // Linux
-      File out = new File("E://graph1" + type);    // Windows
-      gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
+      File out = new File("C:\\\\Users\\\\zy\\\\Desktop\\\\graph." + type);    // Windows
+      gv.writeGraphToFile( gv.getGraph( gv.getdotSource(), type ), out );
    }
    
    /**
@@ -59,7 +68,7 @@ public static void main(String[] args)
     
     GraphViz gv = new GraphViz();
     gv.readSource(input);
-    System.out.println(gv.getDotSource());
+    System.out.println(gv.getdotSource());
      
       String type = "gif";
 //    String type = "dot";
@@ -71,7 +80,7 @@ public static void main(String[] args)
 //      String type = "plain";
     File out = new File("/tmp/simple." + type);   // Linux
 //    File out = new File("c:/eclipse.ws/graphviz-java-api/tmp/simple." + type);   // Windows
-    gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
+    gv.writeGraphToFile( gv.getGraph( gv.getdotSource(), type ), out );
    }
    
 }
